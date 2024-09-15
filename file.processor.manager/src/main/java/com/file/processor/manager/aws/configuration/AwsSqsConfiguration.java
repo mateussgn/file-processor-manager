@@ -1,4 +1,4 @@
-package com.file.processor.manager.configuration;
+package com.file.processor.manager.aws.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
