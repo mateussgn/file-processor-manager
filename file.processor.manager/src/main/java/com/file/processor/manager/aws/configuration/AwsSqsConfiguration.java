@@ -1,6 +1,5 @@
 package com.file.processor.manager.aws.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.regions.Region;
@@ -10,13 +9,13 @@ import java.net.URI;
 @Configuration
 public class AwsSqsConfiguration {
 
-    @Value("${spring.cloud.aws.sqs.endpoint}")
-    private static String sqsEndpoint;
+
+    private static final String SQS_URI = "https://sqs.us-east-1.amazonaws.com/471112682449/file-processor-manager";
 
     @Bean
     public SqsAsyncClient sqsAsyncClient() {
         return SqsAsyncClient.builder()
-                .endpointOverride(URI.create(sqsEndpoint))
+                .endpointOverride(URI.create(SQS_URI))
                 .region(Region.US_EAST_1)
                 .build();
     }
