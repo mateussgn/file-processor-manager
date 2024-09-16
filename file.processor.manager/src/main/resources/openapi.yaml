@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: File Processor Manager
+  description: A simple API to receive and publish file metadata on a AWS SQS Queue.
+
+servers:
+  - url: https://ec2-44-222-68-132.compute-1.amazonaws.com:8080/
+
+# Basic authentication
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+security:
+  - BasicAuth: []
+
+paths:
+  /api/files/upload:
+    post:
+      description: Publish file metadata to a AWS SQS Queue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                fileSize:
+                  type: integer
+                fileType:
+                  type: string
+                userId:
+                  type: string
+                email:
+                  type: string
+
+      responses:
+        '200':
+          description: File uploaded successfully.
