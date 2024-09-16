@@ -10,6 +10,7 @@ import java.util.UUID;
 public class FileMetadataModel {
     private UUID fileId;
     private String fileName;
+    private long fileNumberOfLines;
     private long fileSize;
     private String fileType;
     private String userId;
@@ -19,12 +20,14 @@ public class FileMetadataModel {
 
     public FileMetadataModel(
             String filename,
+            long fileNumberOfLines,
             long fileSize,
             String fileType,
             String userId,
             String email) {
         this.fileId = UUID.randomUUID();
         this.fileName = filename;
+        this.fileNumberOfLines = fileNumberOfLines;
         this.fileSize = fileSize;
         this.fileType = fileType;
         this.userId = userId;
@@ -36,7 +39,6 @@ public class FileMetadataModel {
     public UUID getFileId() {
         return fileId;
     }
-
     public void setFileId(UUID fileId) {
         this.fileId = fileId;
     }
@@ -49,11 +51,18 @@ public class FileMetadataModel {
         this.fileName = fileName;
     }
 
+    @DynamoDbAttribute("file_number_of_lines")
+    public long getFileNumberOfLines() {
+        return fileNumberOfLines;
+    }
+    public void setFileNumberOfLines(long fileNumberOfLines) {
+        this.fileNumberOfLines = fileNumberOfLines;
+    }
+
     @DynamoDbAttribute("file_size")
     public long getFileSize() {
         return fileSize;
     }
-
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
@@ -62,7 +71,6 @@ public class FileMetadataModel {
     public String getFileType() {
         return fileType;
     }
-
     public void setFileType(String fileType) {
         this.fileType = fileType;
     }
@@ -71,7 +79,6 @@ public class FileMetadataModel {
     public String getUserId() {
         return userId;
     }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -80,7 +87,6 @@ public class FileMetadataModel {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
