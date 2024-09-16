@@ -3,6 +3,7 @@ package com.file.processor.manager.consumer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.file.processor.manager.dto.QueueFileMetadata;
 import com.file.processor.manager.service.AwsDynamoDbService;
+import com.file.processor.manager.service.AwsSnsService;
 import io.awspring.cloud.sqs.annotation.SqsListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,10 +12,12 @@ import org.springframework.stereotype.Component;
 public class AwsSqsConsumer {
 
     AwsDynamoDbService awsDynamoDbService;
+    AwsSnsService awsSnsService;
 
     @Autowired
-    public AwsSqsConsumer(AwsDynamoDbService awsDynamoDbService) {
+    public AwsSqsConsumer(AwsDynamoDbService awsDynamoDbService, AwsSnsService awsSnsService) {
         this.awsDynamoDbService = awsDynamoDbService;
+        this.awsSnsService = awsSnsService;
     }
 
     @SqsListener("process-file-queue")
@@ -26,5 +29,7 @@ public class AwsSqsConsumer {
         }
 
         awsDynamoDbService.save(queueFileMetadata);
+
+        awsSnsService.sendNotification(queueFileMetadata);
     }
 }
