@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.file.processor.manager.dto.FileMetadata;
 import com.file.processor.manager.dto.QueueFileMetadata;
+import com.file.processor.manager.model.FileMetadataModel;
 import io.awspring.cloud.sns.core.SnsNotification;
 import io.awspring.cloud.sns.core.SnsTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +21,9 @@ public class AwsSnsService {
         this.snsTemplate = snsTemplate;
     }
 
-    public void sendNotification(QueueFileMetadata queueFileMetadata) throws JsonProcessingException {
-        String content = queueFileMetadata.content();
-        FileMetadata fileMetadata = toFileMetadata(content.substring(1, content.length() - 1));
-        SnsNotification<FileMetadata> snsNotification = SnsNotification.builder(fileMetadata).build();
+    public void sendNotification(FileMetadataModel fileMetadataModel) throws JsonProcessingException {
+        SnsNotification<FileMetadataModel> snsNotification = SnsNotification.builder(fileMetadataModel).build();
 
         snsTemplate.sendNotification(SNS_TOPIC_ARN, snsNotification);
-    }
-
-    private FileMetadata toFileMetadata(String jsonString) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(jsonString, FileMetadata.class);
     }
 }
