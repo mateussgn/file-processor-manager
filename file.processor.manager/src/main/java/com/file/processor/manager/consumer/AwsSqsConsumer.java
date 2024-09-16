@@ -2,6 +2,9 @@ package com.file.processor.manager.consumer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.file.processor.manager.dto.QueueFileMetadata;
+import com.file.processor.manager.file.processor.CountLinesFileProcessor;
+import com.file.processor.manager.file.processor.FileProcessor;
+import com.file.processor.manager.model.FileMetadataModel;
 import com.file.processor.manager.service.AwsDynamoDbService;
 import com.file.processor.manager.service.AwsSnsService;
 import io.awspring.cloud.sqs.annotation.SqsListener;
@@ -25,10 +28,18 @@ public class AwsSqsConsumer {
         if (queueFileMetadata.content().equals("[]")) {
             return;
         }
+        System.out.println("Message consumed.");
+        System.out.println("Start file metadata processing.");
 
-        System.out.println("Message Received: \n" + queueFileMetadata.content());
-        awsDynamoDbService.save(queueFileMetadata);
-        System.out.println("Message saved!");
+        FileProcessor<FileMetadataModel, String> fileProcessor = new CountLinesFileProcessor();
+        FileMetadataModel fileMetadataModel = fileProcessor.process(queueFileMetadata.content());
+        System.out.println("File metadata processed successfully.");
+
+        awsDynamoDbService.save(fileMetadataModel);
+        System.out.println("Start file processing.");
+
         awsSnsService.sendNotification(queueFileMetadata);
+        System.out.println("SNS Notification sent successfully.");
+
     }
 }
