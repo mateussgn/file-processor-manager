@@ -38,7 +38,7 @@ public class AwsSqsConsumer {
         awsDynamoDbService.save(fileMetadataModel);
         System.out.println("Start file processing.");
 
-        awsSnsService.sendNotification(queueFileMetadata);
+        awsSnsService.sendNotification(fileMetadataModel);
         System.out.println("SNS Notification sent successfully.");
 
     }
