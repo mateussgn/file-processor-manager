@@ -11,7 +11,7 @@ import java.util.Arrays;
 @Component
 public class AwsSqsProducer implements CommandLineRunner {
 
-    private static final String SQS_QUEUE_URL = "https://localhost.localstack.cloud:4566/000000000000/process-file-queue";
+    private static final String SQS_QUEUE_URL = "https://sqs.us-east-1.amazonaws.com/471112682449/file-processor-manager";
 
     @Autowired
     private SqsTemplate sqsTemplate;
