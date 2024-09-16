@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class AwsSnsService {
 
     SnsTemplate snsTemplate;
-    private static final String SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:000000000000:process-file-notification";
+    private static final String SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:471112682449:file-processor-manager";
 
     @Autowired
     public AwsSnsService(SnsTemplate snsTemplate) {
@@ -31,10 +31,5 @@ public class AwsSnsService {
     private FileMetadata toFileMetadata(String jsonString) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(jsonString, FileMetadata.class);
-    }
-
-    private String toJsonString(FileMetadata fileMetadata) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(fileMetadata);
     }
 }
