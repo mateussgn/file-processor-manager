@@ -20,16 +20,15 @@ public class AwsSqsConsumer {
         this.awsSnsService = awsSnsService;
     }
 
-    @SqsListener("process-file-queue")
+    @SqsListener("file-processor-manager")
     public void consume(QueueFileMetadata queueFileMetadata) throws JsonProcessingException {
-        System.out.println("Message Received: \n" + queueFileMetadata.content());
-
         if (queueFileMetadata.content().equals("[]")) {
             return;
         }
 
+        System.out.println("Message Received: \n" + queueFileMetadata.content());
         awsDynamoDbService.save(queueFileMetadata);
-
+        System.out.println("Message saved!");
         awsSnsService.sendNotification(queueFileMetadata);
     }
 }
