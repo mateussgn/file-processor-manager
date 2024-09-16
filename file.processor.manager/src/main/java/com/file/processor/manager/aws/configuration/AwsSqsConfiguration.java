@@ -10,7 +10,7 @@ import java.net.URI;
 @Configuration
 public class AwsSqsConfiguration {
 
-    private static final String SQS_URI = "http://localhost:4566";
+    private static final String SQS_URI = "https://sqs.us-east-1.amazonaws.com/471112682449/file-processor-manager";
 
     @Bean
     public SqsAsyncClient sqsAsyncClient() {
